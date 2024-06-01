@@ -1,16 +1,19 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { SignUpReducerTypes } from "../utils";
 import { auth } from "../../../fierbase.config";
+import { errorHandler } from "../../../helpers/errorHendler";
+import { successAlert } from "../../../helpers/alert";
 
 export const signUpAction = (e, state) => {
     e.preventDefault();
     
     createUserWithEmailAndPassword(auth, state.email, state.password)
     .then(res => {
+        successAlert('Login successful');
         location.assign('/')
     })
     .catch(error => {
-        console.log(error);
+        errorHandler(error);
     })
 }
 
