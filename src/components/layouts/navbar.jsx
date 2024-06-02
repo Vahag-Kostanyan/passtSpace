@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { auth } from '../../fierbase.config';
 import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { errorHandler } from "../../helpers/errorHandler";
+
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [authUser, setAuthUser] = useState(null);
