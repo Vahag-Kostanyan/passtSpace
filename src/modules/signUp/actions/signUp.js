@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { SignUpReducerTypes } from "../utils";
 import { auth, googleProvider } from "../../../fierbase.config";
-import { errorHandler } from "../../../helpers/errorHendler";
+import { errorHandler } from "../../../helpers/errorHandler";
 import { successAlert } from "../../../helpers/alert";
 
 export const signUpAction = (e, state) => {
