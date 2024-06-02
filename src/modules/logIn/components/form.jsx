@@ -3,7 +3,7 @@ import PrivacyPolicy from "../../../ui/privacyPolicy";
 import ContinueWithGoogle from '../../../ui/continueWithGoogle';
 import AuthButton from "../../../ui/authButton";
 import SignUpLink from "../ui/signUpLink";
-import { logInAction, reducer } from "../actions/logIn";
+import { logInAction, logInWithGoogleAction, reducer } from "../actions/logIn";
 import { useReducer } from "react";
 import { LogInReducerTypes } from "../utils";
 
@@ -21,7 +21,7 @@ const Form = () => {
                 <div className="w-full flex-1 mt-8">
 
                     <div className="flex flex-col items-center">
-                        <ContinueWithGoogle />
+                        <ContinueWithGoogle action={() => logInWithGoogleAction()} />
                     </div>
 
                     <div className="my-12 border-b text-center">
