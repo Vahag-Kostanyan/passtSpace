@@ -1,6 +1,6 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { LogInReducerTypes } from "../utils";
-import { auth } from "../../../fierbase.config";
+import { auth, googleProvider } from "../../../fierbase.config";
 import { errorHandler } from "../../../helpers/errorHendler";
 import { successAlert } from "../../../helpers/alert";
 
@@ -14,6 +14,18 @@ export const logInAction = (e, state) => {
         .catch(error => {
             errorHandler(error);
         })
+}
+
+
+export const logInWithGoogleAction = () => {
+    signInWithPopup(auth, googleProvider)
+    .then(res => {
+        successAlert('Login successful');
+        location.assign('/')
+    })
+    .catch(error => {
+        errorHandler(error);
+    })
 }
 
 export const reducer = (state, action) => {

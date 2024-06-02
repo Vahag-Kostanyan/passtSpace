@@ -4,7 +4,7 @@ import ContinueWithGoogle from '../../../ui/continueWithGoogle';
 import AuthButton from "../../../ui/authButton";
 import LoginLink from "../ui/loginLink";
 import { useReducer } from "react";
-import { reducer, signUpAction } from "../actions/signUp";
+import { reducer, signUpAction, signUpWithGoogleAction } from "../actions/signUp";
 import { SignUpReducerTypes } from "../utils";
 
 const Form = () => {
@@ -21,7 +21,7 @@ const Form = () => {
                 <div className="w-full flex-1 mt-8">
 
                     <div className="flex flex-col items-center">
-                        <ContinueWithGoogle />
+                        <ContinueWithGoogle action={() => signUpWithGoogleAction()} />
                     </div>
 
                     <div className="my-12 border-b text-center">
