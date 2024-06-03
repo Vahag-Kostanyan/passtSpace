@@ -1,14 +1,11 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { auth } from '../../fierbase.config';
+import {  useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useOutsideClick } from "../../hooks/useOutsideClick";
-import { errorHandler } from "../../helpers/errorHandler";
+import { getAndCheckUser, userSignOut } from "../../actions/currentUser";
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [authUser, setAuthUser] = useState(null);
-    const navigation = useNavigate();
     const location = useLocation();
     const ref = useRef();
     const avatarRef = useRef(null);
@@ -20,23 +17,7 @@ const Navbar = () => {
         }
     });
 
-    useEffect(() => {
-        (() => {
-            onAuthStateChanged(auth, (user) => {
-                if (!user) {
-                    navigation('/login')
-                }
-                setAuthUser(user);
-            })
-        })();
-    }, []);
-
-    const userSignOut = () => {
-        signOut(auth)
-            .catch(error => {
-                errorHandler(error)
-            });
-    }
+    getAndCheckUser((user) => setAuthUser(user));
 
     return (
         <nav className="border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg relative">
@@ -46,7 +27,7 @@ const Navbar = () => {
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-black">PasteSpace</span>
                 </a>
                 <button
-                    className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 "
+                    className="flex text-sm rounded-full md:me-0 focus:ring-4 "
                     id="user-menu-button"
                     aria-expanded="false"
                     data-dropdown-toggle="user-dropdown"
@@ -55,10 +36,10 @@ const Navbar = () => {
                     ref={avatarRef}
                 >
                     <span className="sr-only">Open user menu</span>
-                    <img className="w-8 h-8 rounded-full" src="https://t3.ftcdn.net/jpg/06/17/13/26/240_F_617132669_YptvM7fIuczaUbYYpMe3VTLimwZwzlWf.jpg" alt="user photo" />
+                    <img className="w-8 h-8 rounded-full" src="/avatar.png" alt="user photo" />
                 </button>
                 {isDropdownOpen && (
-                    <div ref={ref} className="absolute right-[10px] top-[50px] mt-2 w-48 bg-white rounded-md shadow-2xl py-2 " id="user-dropdown">
+                    <div ref={ref} className="absolute right-[15px] top-[50px] mt-2 w-48 bg-white rounded-md shadow-2xl py-2 " id="user-dropdown">
                         <div className="px-4 py-3 border-b-2 mb-2 ">
                             <span className="block text-sm text-gray-500 truncate">{authUser.email}</span>
                         </div>
