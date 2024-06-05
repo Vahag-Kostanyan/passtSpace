@@ -3,9 +3,11 @@ import AuthButton from "../../ui/authButton";
 import Input from "../../ui/input";
 import { getAndCheckUser, userSignOut } from "../../actions/currentUser";
 import LogOutButton from "./ui/logOutButton";
+import { changePassword } from "./actions/changePassword";
 
 const ProfileModule = () => {
     const [authUser, setAuthUser] = useState(null);
+    const [state, setState] = useState({password: '', newPassword: ''});
 
     getAndCheckUser((user) => setAuthUser(user));
 
@@ -23,14 +25,14 @@ const ProfileModule = () => {
             </div>
 
 
-            <form className="max-w-sm mx-auto flex flex-col justify-center ">
+            <form onSubmit={e => changePassword(e, state, authUser)} className="max-w-sm mx-auto flex flex-col justify-center ">
                 <div className="mb-5">
-                    <label for="password" className="block mb-2 text-sm font-medium">Password</label>
-                    <Input type="password" id="password" placeholder="*******" required={true} />
+                    <label htmlFor="password" className="block mb-2 text-sm font-medium">Password</label>
+                    <Input value={state.password} action={e => setState({...state, password: e.target.value})} type="password" id="password" placeholder="*******" required={true} />
                 </div>
                 <div className="mb-5">
-                    <label for="newPassword" className="block mb-2 text-sm font-medium ">New password</label>
-                    <Input type="password" id="newPassword" placeholder="*******" required={true} />
+                    <label htmlFor="newPassword" className="block mb-2 text-sm font-medium ">New password</label>
+                    <Input value={state.newPassword} action={e => setState({...state, newPassword: e.target.value})} type="password" id="newPassword" placeholder="*******" required={true} />
                 </div>
                 <AuthButton text="Change Password" />
             </form>
