@@ -1,25 +1,14 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { getAndCheckUser } from "./actions/currentUser.js";
 import SignUp from './pages/signUp.jsx'
 import LogIn from './pages/logIn.jsx'
 import Home from './pages/home.jsx'
-import { useEffect, useState } from "react";
-import Navbar from "./components/layouts/navbar.jsx";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./fierbase.config.js";
+import Profile from "./pages/profile.jsx";
+import Layout from "./components/layouts/layout.jsx";
 
 const SiteRouter = () => {
-    const [authUser, setAuthUser] = useState(true);
 
-    useEffect(() => {
-        (async () => {
-            onAuthStateChanged(auth, (user) => {
-                if(!user){
-                    location.assign = '/login';
-                }
-                setAuthUser(user);
-            })
-        })();
-    }, []);
+    if (location.pathname !== '/login' && location.pathname !== '/signup') getAndCheckUser((user) => {});
 
     return (
         <BrowserRouter>
@@ -27,8 +16,10 @@ const SiteRouter = () => {
                 <Route path="/signUp" element={<SignUp />} />
                 <Route path="/logIn" element={<LogIn />} />
                 <Route
-                    element={<Navbar />}
+                    path='/'
+                    element={<Layout />}
                 >
+                    <Route path="/profile" element={<Profile />} />
                     <Route path="/" element={<Home />} />
                 </Route>
             </Routes>
