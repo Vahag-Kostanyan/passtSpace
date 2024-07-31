@@ -3,9 +3,10 @@ import PrivacyPolicy from "../../../ui/privacyPolicy";
 import ContinueWithGoogle from '../../../ui/continueWithGoogle';
 import AuthButton from "../../../ui/authButton";
 import SignUpLink from "../ui/signUpLink";
-import { logInAction, logInWithGoogleAction, reducer } from "../actions/logIn";
+import { logInAction, logInWithGitHubAction, logInWithGoogleAction, reducer } from "../actions/logIn";
 import { useReducer } from "react";
 import { LogInReducerTypes } from "../utils";
+import ContinueWithGitHub from "../../../ui/continueWithGitHub";
 
 
 const Form = () => {
@@ -20,8 +21,9 @@ const Form = () => {
                 </h1>
                 <div className="w-full flex-1 mt-8">
 
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center gap-2">
                         <ContinueWithGoogle action={() => logInWithGoogleAction()} />
+                        <ContinueWithGitHub action={() => logInWithGitHubAction()} />
                     </div>
 
                     <div className="my-12 border-b text-center">

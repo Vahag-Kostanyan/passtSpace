@@ -41,7 +41,7 @@ const Navbar = () => {
                 {isDropdownOpen && (
                     <div ref={ref} className="absolute right-[15px] top-[50px] mt-2 w-48 bg-white rounded-md shadow-2xl py-2 " id="user-dropdown">
                         <div className="px-4 py-3 border-b-2 mb-2 ">
-                            <span className="block text-sm text-gray-500 truncate">{authUser.email}</span>
+                            <span className="block text-sm text-gray-500 truncate">{authUser?.email || authUser?.displayName}</span>
                         </div>
                         <ul className="flex flex-col gap-2 rounded-lg">
                             <li>

@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { SignUpReducerTypes } from "../utils";
-import { auth, googleProvider } from "../../../fierbase.config";
+import { auth, gitHubProvider, googleProvider } from "../../../fierbase.config";
 import { errorHandler } from "../../../helpers/errorHandler";
 import { successAlert } from "../../../helpers/alert";
 
@@ -19,6 +19,17 @@ export const signUpAction = (e, state) => {
 
 export const signUpWithGoogleAction = () => {
     signInWithPopup(auth, googleProvider)
+    .then(res => {
+        successAlert('Login successful');
+        location.assign('/')
+    })
+    .catch(error => {
+        errorHandler(error);
+    })
+}
+
+export const signUpWithGitHubAction = () => {
+    signInWithPopup(auth, gitHubProvider)
     .then(res => {
         successAlert('Login successful');
         location.assign('/')
