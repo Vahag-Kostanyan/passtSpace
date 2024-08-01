@@ -12,7 +12,7 @@ const ProfileModule = () => {
     getAndCheckUser((user) => setAuthUser(user));
 
     return (
-        <div className="border-gray-200 bg-gray-50 bg-white shadow-2xl sm:rounded-lg flex gap-3 p-3" >
+        <div className="border-gray-200 bg-gray-50 bg-white shadow-2xl sm:rounded-lg flex gap-3 p-3 flex-wrap" >
             <div className="shadow-2xl sm:rounded-lg p-2">
                 <div className="flex rounded-full md:me-0 focus:ring-4 ">
                     <span className="sr-only">Avatar</span>

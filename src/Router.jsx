@@ -4,7 +4,7 @@ import SignUp from './pages/signUp.jsx'
 import LogIn from './pages/logIn.jsx'
 import Home from './pages/home.jsx'
 import Profile from "./pages/profile.jsx";
-import Layout from "./components/layouts/layout.jsx";
+import Layout from "./layouts/layout.jsx";
 
 const SiteRouter = () => {
 

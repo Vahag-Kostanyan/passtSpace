@@ -1,8 +1,6 @@
 import './App.css'
 import SiteRouter from './Router'
 
-function App() {
-  return <SiteRouter/>
-}
+const App = () => <SiteRouter/>;
 
 export default App
