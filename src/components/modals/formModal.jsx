@@ -1,21 +1,21 @@
 import { useState } from "react";
 import Modal from "../../ui/modal";
 
-const FormModal = (prop) => {
+const FormModal = ({ButtonComponent, FormComponent, title}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const Button = prop.ButtonComponent;
-    // const Form = prop.FormComponent;
 
-    console.log(Button);
+    const Button = ButtonComponent();
+    const Form = FormComponent();
+
     return (
         <div>
-            <Button onClick={() => setIsModalOpen(true)} />
+            <Button onClick={() => {setIsModalOpen(true)}} />
 
-            {/* {isModalOpen && (
+            {isModalOpen && (
                 <Modal onClose={() => setIsModalOpen(false)} title={title}>
                     <Form closeModal={() => setIsModalOpen(false)} />
                 </Modal>
-            )} */}
+            )}
         </div>
     );
 
