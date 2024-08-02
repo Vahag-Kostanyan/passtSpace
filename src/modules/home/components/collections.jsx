@@ -2,10 +2,16 @@ import FormModal from "../../../components/modals/formModal";
 import { changeCollection } from "../actions";
 import AddButton from "../ui/addButton";
 import AddCollectionForm from "../components/form/addCollectionForm";
+import { useState } from "react";
+import { useWindowResize } from "../../../hooks/useWindowResize";
 
 const Collections = () => {
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
+
+    useWindowResize(setIsSmallScreen);
+
     return (
-        <div className="flex-4 p-3 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg flex flex-col gap-2 min-w-56">
+        <div className={`flex-4 p-3 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg flex flex-col gap-2 min-w-56 ${isSmallScreen ? "w-full" : "max-w-56"}`}>
             <div className="flex flex-col  border-b-2 pb-2">
                 <FormModal ButtonComponent={() => AddButton} FormComponent={() => AddCollectionForm} title={'New Collection'} />
             </div>
