@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { SignUpReducerTypes } from "../utils";
-import { auth, gitHubProvider, googleProvider } from "../../../fierbase.config";
+import { auth, gitHubProvider, googleProvider } from "../../../firebase.config";
 import { errorHandler } from "../../../helpers/errorHandler";
 import { successAlert } from "../../../helpers/alert";
 
