@@ -6,19 +6,20 @@ import { useEffect, useState } from "react";
 import { useWindowResize } from "../../../hooks/useWindowResize";
 import { getAndCheckUser } from "../../../actions/currentUser";
 import { useQueryParams } from "../../../hooks/useQueryParams";
+import Loading from "../../../ui/loading";
 
 const Collections = () => {
     const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
     const [authUser, setAuthUser] = useState(null);
     const [data, setData] = useState([]);
-    const queryParams = useQueryParams()    
+    const queryParams = useQueryParams()
     getAndCheckUser((user) => setAuthUser(user));
 
     useWindowResize(setIsSmallScreen);
 
-    useEffect(() =>  {
-        ( async () => {
-            if(authUser){
+    useEffect(() => {
+        (async () => {
+            if (authUser) {
                 await getCollections(authUser).then(res => {
                     setData(res);
                 })
@@ -36,10 +37,15 @@ const Collections = () => {
                 {data && data.length > 0 ? (
                     <>
                         {data.map(item => {
-                            return <div key={item.id} onClick={() => changeCollection(item.id)} className="p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2 ">{item.name}</div>
+                            return <div
+                                key={item.id}
+                                onClick={() => changeCollection(item.id)} className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2 overflow-hidden whitespace-nowrap overflow-ellipsis ${item.id === queryParams.collection ? 'text-black' : 'text-neutral-500'}`}
+                            >
+                                {item.name}
+                            </div>
                         })}
                     </>
-                ) : (<></>)}
+                ) : (<div className="flex justify-center w-full"><Loading /></div>)}
             </div>
         </div>
     );
