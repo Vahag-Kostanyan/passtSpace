@@ -5,6 +5,7 @@ import LogIn from './pages/logIn.jsx'
 import Home from './pages/home.jsx'
 import Profile from "./pages/profile.jsx";
 import Layout from "./layouts/layout.jsx";
+import NotFound from "./pages/not-found.jsx";
 
 const SiteRouter = () => {
 
@@ -22,6 +23,7 @@ const SiteRouter = () => {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/" element={<Home />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );
