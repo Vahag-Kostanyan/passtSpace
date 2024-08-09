@@ -1,45 +1,22 @@
 import FormModal from "../../../components/modals/formModal";
-import { changeCollection, getCollections } from "../actions";
 import AddButton from "../ui/addButton";
 import AddCollectionForm from "../components/form/addCollectionForm";
-import { useEffect, useState } from "react";
-import { useWindowResize } from "../../../hooks/useWindowResize";
-import { getAndCheckUser } from "../../../actions/currentUser";
-import { useQueryParams } from "../../../hooks/useQueryParams";
 import Loading from "../../../ui/loading";
 
-const Collections = () => {
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
-    const [authUser, setAuthUser] = useState(null);
-    const [data, setData] = useState([]);
-    const queryParams = useQueryParams()
-    getAndCheckUser((user) => setAuthUser(user));
-
-    useWindowResize(setIsSmallScreen);
-
-    useEffect(() => {
-        (async () => {
-            if (authUser) {
-                await getCollections(authUser).then(res => {
-                    setData(res);
-                })
-            }
-        })();
-    }, [authUser, queryParams]);
-
-
+const Collections = ({ state, changeCollection }) => {
     return (
-        <div className={`flex-4 p-3 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg flex flex-col gap-2 min-w-56 ${isSmallScreen ? "w-full" : "max-w-56"}`}>
+        <div className={`flex-4 p-3 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg flex flex-col gap-2 min-w-56 ${state.isSmallScreen ? "w-full" : "max-w-56"}`}>
             <div className="flex flex-col  border-b-2 pb-2">
                 <FormModal ButtonComponent={() => AddButton} FormComponent={() => AddCollectionForm} title={'New Collection'} />
             </div>
             <div className="flex flex-col gap-2 pt-4">
-                {data && data.length > 0 ? (
+                {state.collections && state.collections.length > 0 ? (
                     <>
-                        {data.map(item => {
+                        {state.collections.map(item => {
                             return <div
                                 key={item.id}
-                                onClick={() => changeCollection(item.id)} className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2 overflow-hidden whitespace-nowrap overflow-ellipsis ${item.id === queryParams.collection ? 'text-black' : 'text-neutral-500'}`}
+                                onClick={() => changeCollection(item)}
+                                className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2 overflow-hidden whitespace-nowrap overflow-ellipsis ${item.id === state?.selectedCollection?.id ? 'text-black' : 'text-neutral-500'}`}
                             >
                                 {item.name}
                             </div>

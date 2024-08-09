@@ -1,30 +1,40 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "../../firebase.config";
+import { useReducer } from "react";
 import Collections from "./components/collections";
 import ContentIndex from "./components/content";
 import { useQueryParams } from "../../hooks/useQueryParams";
 import { useWindowResize } from "../../hooks/useWindowResize";
 import { getAndCheckUser } from "../../actions/currentUser";
+import { reducer } from "./actions/reducer";
+import { initFormData } from "./helpers/initData";
+import { reducerTypes } from "./utils";
+import { getCollectionsAction } from "./actions/action";
 
 const HomeModule = () => {
-    const [authUser, setAuthUser] = useState(null);
-    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 650);
-    const queryParams = useQueryParams()    
+    const queryParams = useQueryParams();
+    const [state, dispatch] = useReducer(reducer, initFormData());
 
-    useWindowResize(setIsSmallScreen);
+    useWindowResize((data) => dispatch({ type: reducerTypes.SET_IS_SMALL_SCREEN, payload: { data: data } }));
+    getAndCheckUser((user) => dispatch({ type: reducerTypes.SET_USER, payload: { data: user } }));
+    getCollectionsAction(state, dispatch);
 
-    getAndCheckUser((user) => setAuthUser(user));
+    const CollectionsComponent = () => <Collections
+        state={state}
+        changeCollection={(data) => dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: data } })}
+    />
+    const ContentIndexComponent = () => <ContentIndex
+        closeCollection={() => dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: {} } })}
+        selectedCollection={state.selectedCollection}
+    />
 
     return (
         <div className="flex  gap-3" style={{ height: 'calc(100vh - 115px)' }}>
-            {isSmallScreen ? (<>{queryParams.collection ? (<><ContentIndex /></> ) : (<><Collections /></> ) }</>) : 
-            (
-                <>
-                    <Collections />
-                    <ContentIndex />
-                </>
-            )}
+            {state.isSmallScreen ? (<>{queryParams.collection ? (<><ContentIndexComponent /></>) : (<><CollectionsComponent /></>)}</>) :
+                (
+                    <>
+                        <CollectionsComponent />
+                        <ContentIndexComponent />
+                    </>
+                )}
 
         </div>
     );
