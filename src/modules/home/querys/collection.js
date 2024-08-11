@@ -56,7 +56,17 @@ export const createCollectionQuery = async (collectionName, user) => {
 
         const docRef = await addDoc(colRef, newDoc);
 
-        return docRef;
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const docData = {
+                id: docSnap.id,
+                ...docSnap.data(),
+            };
+            return docData;
+        }
+
+        return null;
     } catch (error) {
         serverErrorAlert();
     }
@@ -81,12 +91,22 @@ export const editCollectionQuery = async (collectionName, user, docId) => {
 
         const docRef = doc(db, 'collections', docId);
 
-        await updateDoc(docRef, {name: collectionName});
+        await updateDoc(docRef, { name: collectionName });
 
-        return docRef;
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const docData = {
+                id: docSnap.id,
+                ...docSnap.data(),
+            };
+            return docData;
+        }
+
+        return null;
     } catch (error) {
         console.log(error);
-        
+
         serverErrorAlert();
     }
 }

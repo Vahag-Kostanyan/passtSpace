@@ -1,15 +1,16 @@
-import { useState } from "react";
-import { getAndCheckUser } from "../../../../actions/currentUser";
+import { useContext, useState } from "react";
 import Button from "../../../../ui/button";
 import Input from "../../../../ui/input";
 import { createCollectionAction } from "../../actions/action";
+import { StateContext } from "../../index.jsx";
+
 
 const AddCollectionForm = ({ closeModal = () => { } }) => {
-    const [authUser, setAuthUser] = useState(null);
     const [name, setName] = useState('');
-    getAndCheckUser((user) => setAuthUser(user));
 
-    const handelSubmit = (e) => createCollectionAction(e, name, authUser, closeModal);
+    const context = useContext(StateContext);
+    
+    const handelSubmit = (e) => createCollectionAction(e, context.dispatch, name, context.state.user, closeModal);
 
     return (
         <form className='p-2' onSubmit={handelSubmit}>

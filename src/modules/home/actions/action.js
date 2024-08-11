@@ -11,7 +11,7 @@ export const getCollectionsAction = (state, dispatch) => {
     }, [state.user]);
 }
 
-export const createCollectionAction = async (e, collectionName, user, closeModal) => {
+export const createCollectionAction = async (e, dispatch, collectionName, user, closeModal) => {
     e.preventDefault();
 
     if (collectionName == '') {
@@ -21,6 +21,7 @@ export const createCollectionAction = async (e, collectionName, user, closeModal
         const collection = await createCollectionQuery(collectionName, user);
 
         if (collection) {
+            dispatch({type: reducerTypes.ADD_COLLECTION, payload: {data: collection}});
             successAlert('Created Successfully');
             closeModal();
         }
@@ -29,7 +30,7 @@ export const createCollectionAction = async (e, collectionName, user, closeModal
 
 
 
-export const editCollectionAction = async (e, collectionName, user, docId, closeModal) => {
+export const editCollectionAction = async (e, dispatch, collectionName, user, docId, closeModal) => {
     e.preventDefault();
 
     if (collectionName == '') {
@@ -41,6 +42,7 @@ export const editCollectionAction = async (e, collectionName, user, docId, close
         const collection = await editCollectionQuery(collectionName, user, docId);
 
         if (collection) {
+            dispatch({type: reducerTypes.EDIT_COLLECTION, payload: {data: collection}});
             successAlert('Updated Successfully');
             closeModal();
         }

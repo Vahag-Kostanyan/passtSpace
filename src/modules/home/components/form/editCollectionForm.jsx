@@ -1,30 +1,15 @@
-import { useEffect, useState } from "react";
-import { getAndCheckUser } from "../../../../actions/currentUser";
+import { useContext, useState } from "react";
 import Button from "../../../../ui/button";
 import Input from "../../../../ui/input";
-import {useQueryParams}  from "../../../../hooks/useQueryParams";
-import { getCollectionQuery } from "../../querys/collection";
 import { editCollectionAction } from "../../actions/action";
+import { StateContext } from "../../index.jsx";
 
 const EditCollection = ({ closeModal = () => { } }) => {
-    const [authUser, setAuthUser] = useState(null);
-    const [name, setName] = useState('');
-    const [data, setData] = useState({});
-    const queryParams = useQueryParams()    
-    getAndCheckUser((user) => setAuthUser(user));
+    const context = useContext(StateContext);
 
-    const handelSubmit = (e) => editCollectionAction(e, name, authUser, queryParams.collection, closeModal);
+    const [name, setName] = useState(context.state.selectedCollection.name);
 
-    useEffect(() => {
-        (async () => {
-            if (authUser) {
-                await getCollectionQuery(authUser.uid, queryParams.collection).then(res => {
-                    setData(res);
-                    setName(res.name);
-                })
-            }
-        })();
-    }, [authUser, queryParams]);
+    const handelSubmit = (e) => editCollectionAction(e, context.dispatch, name, context.state.user, context.state.selectedCollection.id, closeModal);
     
     return (
         <form className='p-2' onSubmit={handelSubmit}>
