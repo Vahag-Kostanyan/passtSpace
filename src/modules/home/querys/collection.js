@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import { serverErrorAlert } from "../../../helpers/alert";
 
@@ -105,8 +105,24 @@ export const editCollectionQuery = async (collectionName, user, docId) => {
 
         return null;
     } catch (error) {
-        console.log(error);
+        serverErrorAlert();
+    }
+}
 
+export const deleteCollectionQuery = async (docId, user_id) => {
+    try {
+        
+        const docRef = doc(db, 'collections', docId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists() && docSnap.data().createdBy === user_id) {
+            await deleteDoc(docRef);
+        }else{
+            serverErrorAlert();        
+        }
+
+        return true;
+    } catch (error) {
         serverErrorAlert();
     }
 }

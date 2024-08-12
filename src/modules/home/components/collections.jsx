@@ -15,21 +15,21 @@ const Collections = () => {
             <div className="flex flex-col  border-b-2 pb-2">
                 <FormModal ButtonComponent={() => AddButton} FormComponent={() => AddCollectionForm} title={'New Collection'} />
             </div>
-            <div className="flex flex-col gap-2 pt-4">
+            <ul className="flex flex-col gap-2 pt-4 -mb-base  overflow-y-scroll">
                 {context.state.collections && context.state.collections.length > 0 ? (
                     <>
                         {context.state.collections.map(item => {
-                            return <div
+                            return <li
                                 key={item.id}
                                 onClick={() => context.dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: item }})}
-                                className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2 overflow-hidden whitespace-nowrap overflow-ellipsis ${item.id === context.state?.selectedCollection?.id ? 'text-black' : 'text-neutral-500'}`}
+                                className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2  ${item.id === context.state?.selectedCollection?.id ? 'text-black' : 'text-neutral-500'}`}
                             >
-                                {item.name}
-                            </div>
+                                <p className="overflow-hidden whitespace-nowrap overflow-ellipsis">{item.name}</p>
+                            </li>
                         })}
                     </>
                 ) : (<div className="flex justify-center w-full"><Loading /></div>)}
-            </div>
+            </ul>
         </div>
     );
 }

@@ -7,5 +7,20 @@ export default {
     theme: {
       extend: {},
     },
-    plugins: [],
+    plugins: [    function({ addUtilities }) {
+      addUtilities(
+        {
+          '.scrollbar-thin': {
+            'scrollbar-width': 'thin',
+          },
+          '.scrollbar-thumb': {
+            'scrollbar-color': '#888 #eee', // thumb color and track color
+          },
+          '.scrollbar-track': {
+            'scrollbar-track-color': '#eee',
+          },
+        },
+        ['responsive']
+      )
+    }],
   }

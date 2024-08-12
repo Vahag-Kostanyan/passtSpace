@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { reducerTypes } from "../utils";
-import { createCollectionQuery, editCollectionQuery, getCollectionsQuery } from "../querys/collection";
+import { createCollectionQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery } from "../querys/collection";
 import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
@@ -44,6 +44,18 @@ export const editCollectionAction = async (e, dispatch, collectionName, user, do
         if (collection) {
             dispatch({type: reducerTypes.EDIT_COLLECTION, payload: {data: collection}});
             successAlert('Updated Successfully');
+            closeModal();
+        }
+    } catch (error) { }
+}
+
+export const deleteCollectionAction = async (dispatch, user, docId, closeModal) => {
+    try {
+        const status = await deleteCollectionQuery(docId, user.uid);
+
+        if (status) {
+            dispatch({type: reducerTypes.DELETE_COLLECTION, payload: {docId}});
+            successAlert('Deleted Successfully');
             closeModal();
         }
     } catch (error) { }
