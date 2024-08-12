@@ -11,7 +11,7 @@ export const reducer = (state, action) => {
         case reducerTypes.EDIT_COLLECTION:
             return {...state, collections: state.collections.map(item => item.id === action.payload.data.id ? action.payload.data : item)}
         case reducerTypes.DELETE_COLLECTION:
-            return {...state, collections: state.collections.filter(item => item.id !== action.payload.docId)}
+            return {...state, selectedCollection: {}, collections: state.collections.filter(item => item.id !== action.payload.docId)}
         case reducerTypes.SET_COLLECTIONS:
             return {...state, collections: action.payload.data}
         case reducerTypes.SET_SELECTED_COLLECTION:
