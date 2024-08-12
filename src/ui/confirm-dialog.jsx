@@ -19,7 +19,7 @@ const ConfirmDialog = ({
     })
 
     return (
-        <div className='fixed inset-0 z-50 flex justify-center items-center left-0 right-0 top-0 bottom-0 bg-gray-500/10'>
+        <div className='fixed inset-0 z-50 flex justify-center items-center left-0 right-0 top-0 bottom-0 bg-gray-500/10 p-2'>
             <div className='max-w-[500px] rounded-lg bg-white p-5' ref={ref}>
                 <div className='flex justify-end'>
                     <button onClick={closeDialog}>

@@ -6,4 +6,5 @@ export const reducerTypes = {
     DELETE_COLLECTION: 'DELETE_collection',
     SET_SELECTED_COLLECTION: 'set_selected_collection',
     SET_IS_SMALL_SCREEN: 'set_is_small_screen',
+    SET_LOADING: 'set_loading',
 }

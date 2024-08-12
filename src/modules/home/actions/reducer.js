@@ -16,6 +16,8 @@ export const reducer = (state, action) => {
             return {...state, collections: action.payload.data}
         case reducerTypes.SET_SELECTED_COLLECTION:
             return {...state, selectedCollection: action.payload.data}
+        case reducerTypes.SET_LOADING:
+            return {...state, isLoading: action.payload.status}
         default:
             return state;
     }

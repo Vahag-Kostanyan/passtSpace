@@ -5,8 +5,12 @@ import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
     useEffect(() => {
+        dispatch({ type: reducerTypes.SET_LOADING, payload: { status: true } });
         (async () => {
-            if (state.user) await getCollectionsQuery(state.user.uid).then(res => dispatch({ type: reducerTypes.SET_COLLECTIONS, payload: { data: res } }));
+            if (state.user){
+                await getCollectionsQuery(state.user.uid).then(res => dispatch({ type: reducerTypes.SET_COLLECTIONS, payload: { data: res } }));
+                dispatch({ type: reducerTypes.SET_LOADING, payload: { status: false } });
+            }
         })();
     }, [state.user]);
 }

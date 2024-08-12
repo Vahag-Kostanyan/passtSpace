@@ -15,8 +15,8 @@ const Collections = () => {
             <div className="flex flex-col  border-b-2 pb-2">
                 <FormModal ButtonComponent={() => AddButton} FormComponent={() => AddCollectionForm} title={'New Collection'} />
             </div>
-            <ul className="flex flex-col gap-2 pt-4 -mb-base  overflow-y-scroll">
-                {context.state.collections && context.state.collections.length > 0 ? (
+            <ul className={`flex flex-col gap-2 pt-4 ${!context.state.isLoading && '-mb-base  overflow-y-scroll '}`}  >
+                {!context.state.isLoading ? (
                     <>
                         {context.state.collections.map(item => {
                             return <li
