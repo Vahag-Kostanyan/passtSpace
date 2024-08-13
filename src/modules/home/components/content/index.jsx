@@ -1,13 +1,8 @@
 import { useContext } from "react";
-import FormModal from "../../../../components/modals/formModal";
-import DeleteButton from "../../ui/deleteButton";
-import EditButton from "../../ui/editButton";
-import GoBackButton from "../../ui/goBackButton";
-import EditCollection from "../form/editCollectionForm";
+import Content from "./content.jsx";
+import Footer from "./footer.jsx";
+import Head from "./head.jsx";
 import { StateContext } from "../../index.jsx";
-import { reducerTypes } from "../../utils/index.js";
-import DeleteModal from "../../../../components/modals/deleteModal.jsx";
-import { deleteCollectionAction } from "../../actions/action.js";
 
 const ContentIndex = () => {
     const context = useContext(StateContext);
@@ -15,15 +10,10 @@ const ContentIndex = () => {
     return (
         <div className="flex-8 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg p-3 flex flex-col w-full">
             {context.state.selectedCollection.id && (
-                <div className="flex border-b-2 pb-2 items-center justify-between">
-                    <div className="max-w-56 text-2xl font-extrabold text-gray-800 tracking-wide leading-tight overflow-hidden whitespace-nowrap overflow-ellipsis">
-                        {context.state.selectedCollection.name}
-                    </div>
-                    <div className="flex justify-end gap-2">
-                        <GoBackButton onClick={() => context.dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: {} } })} />
-                        <FormModal ButtonComponent={() => EditButton} FormComponent={() => EditCollection} title={'Edit Collection'} />
-                        <DeleteModal actionDelete={(closeModal) => deleteCollectionAction(context.dispatch, context.state.user, context.state.selectedCollection.id, closeModal)} ButtonComponent={() => DeleteButton} message={`You are removing collection ${context.state.selectedCollection.name}. This action is irreversible.`} />
-                    </div>
+                <div className="flex flex-col justify-between gap-2 h-full">
+                    <Head/>
+                    <Content/>
+                    <Footer/>
                 </div>
             )}
         </div>

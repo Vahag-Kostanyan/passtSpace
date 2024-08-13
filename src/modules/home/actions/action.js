@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { reducerTypes } from "../utils";
-import { createCollectionQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery } from "../querys/collection";
+import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery } from "../querys/collection";
 import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
@@ -63,4 +63,16 @@ export const deleteCollectionAction = async (dispatch, user, docId, closeModal) 
             closeModal();
         }
     } catch (error) { }
+}
+
+
+export const createPasteAction = async (e, dispatch, user, docId, paste) => {
+    try{        
+        e.preventDefault();
+
+        console.log(111);
+        const paste = await createPasteQuery(user, docId, paste);
+
+        console.log(paste);
+    }catch(error) {}
 }

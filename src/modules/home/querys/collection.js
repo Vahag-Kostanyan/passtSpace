@@ -1,6 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../firebase.config";
-import { serverErrorAlert } from "../../../helpers/alert";
+import { errorAlert, serverErrorAlert } from "../../../helpers/alert";
 
 export const getCollectionsQuery = async (id) => {
     try {
@@ -111,18 +111,50 @@ export const editCollectionQuery = async (collectionName, user, docId) => {
 
 export const deleteCollectionQuery = async (docId, user_id) => {
     try {
-        
+
         const docRef = doc(db, 'collections', docId);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists() && docSnap.data().createdBy === user_id) {
             await deleteDoc(docRef);
-        }else{
-            serverErrorAlert();        
+        } else {
+            serverErrorAlert();
         }
 
         return true;
     } catch (error) {
+        serverErrorAlert();
+    }
+}
+
+export const createPasteQuery = async (user, docId, paste) => {
+    console.log(11111111);
+    
+    try {
+        const docRef = doc(db, 'collections', docId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists() && docSnap.data().createdBy === user.uid) {
+            const pastesCollectionRef = collection(docRef, "pastes");
+
+            const subDocRef = await addDoc(pastesCollectionRef, {
+                createdAt: new Date(),
+                paste
+            });
+
+            const subDocSnap = await getDoc(subDocRef);
+
+            return {
+                id: subDocSnap.id,
+                ...subDocSnap.data(),
+            };
+        }
+
+        errorAlert('Please reload the page!');
+        return false;
+    } catch (error) {
+        console.log(error);
+
         serverErrorAlert();
     }
 }
