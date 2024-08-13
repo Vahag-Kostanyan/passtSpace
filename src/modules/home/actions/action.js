@@ -66,13 +66,10 @@ export const deleteCollectionAction = async (dispatch, user, docId, closeModal) 
 }
 
 
-export const createPasteAction = async (e, dispatch, user, docId, paste) => {
+export const createPasteAction = async (e, dispatch, user, docId, pasteText) => {
     try{        
         e.preventDefault();
+        const paste = await createPasteQuery(user, docId, pasteText);
 
-        console.log(111);
-        const paste = await createPasteQuery(user, docId, paste);
-
-        console.log(paste);
     }catch(error) {}
 }

@@ -128,8 +128,6 @@ export const deleteCollectionQuery = async (docId, user_id) => {
 }
 
 export const createPasteQuery = async (user, docId, paste) => {
-    console.log(11111111);
-    
     try {
         const docRef = doc(db, 'collections', docId);
         const docSnap = await getDoc(docRef);
