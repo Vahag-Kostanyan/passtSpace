@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Content from "./content.jsx";
+import Content from "./content/index.jsx";
 import Footer from "./footer.jsx";
 import Head from "./head.jsx";
 import { StateContext } from "../../index.jsx";
