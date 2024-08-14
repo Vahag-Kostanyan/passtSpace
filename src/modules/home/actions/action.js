@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { reducerTypes } from "../utils";
-import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery } from "../querys/collection";
+import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery, getPastesQuery } from "../querys/collection";
 import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
@@ -65,11 +65,26 @@ export const deleteCollectionAction = async (dispatch, user, docId, closeModal) 
     } catch (error) { }
 }
 
+export const selectCollectionAction = async (dispatch, user, item) => {
+    try{
+        const pastes =  await getPastesQuery(user, item.id);
+                        
+        dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: item }});
+        dispatch({ type: reducerTypes.SET_PASTES_LOADING, payload: { status: true }});
+        dispatch({ type: reducerTypes.SET_PASTES, payload: { data: pastes }});
+    }catch(error) {
+        
+    }
+}
+
 
 export const createPasteAction = async (e, dispatch, user, docId, pasteText) => {
-    try{        
+    try{
         e.preventDefault();
-        const paste = await createPasteQuery(user, docId, pasteText);
 
+        const paste = await createPasteQuery(user, docId, pasteText);
+        
+        dispatch({ type: reducerTypes.ADD_PASTES, payload: { data: paste }});
+        
     }catch(error) {}
 }

@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc, where } from "firebase/firestore";
 import { db } from "../../../firebase.config";
 import { errorAlert, serverErrorAlert } from "../../../helpers/alert";
 
@@ -151,8 +151,32 @@ export const createPasteQuery = async (user, docId, paste) => {
         errorAlert('Please reload the page!');
         return false;
     } catch (error) {
-        console.log(error);
+        serverErrorAlert();
+    }
+}
 
+
+export const getPastesQuery = async (user, docId) => {
+    try {
+        const docRef = doc(db, 'collections', docId);
+        const docSnap = await getDoc(docRef);
+
+
+        if (docSnap.exists() && docSnap.data().createdBy === user.uid) {
+            const pastesCollectionRef = collection(docRef, "pastes");
+
+            const q = query(pastesCollectionRef, orderBy("createdAt", "desc")); // Change "desc" to "asc" if you want ascending order
+
+            const subDocSnap = await getDocs(q);
+            
+            return subDocSnap.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+        }
+
+        return [];
+    } catch (error) {
         serverErrorAlert();
     }
 }

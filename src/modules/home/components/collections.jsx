@@ -5,6 +5,7 @@ import Loading from "../../../ui/loading";
 import { useContext } from "react";
 import { StateContext } from "../index.jsx";
 import { reducerTypes } from "../utils/index.js";
+import { selectCollectionAction } from "../actions/action.js";
 
 const Collections = () => {
 
@@ -21,7 +22,7 @@ const Collections = () => {
                         {context.state.collections.map(item => {
                             return <li
                                 key={item.id}
-                                onClick={() => context.dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: item }})}
+                                onClick={() => selectCollectionAction(context.dispatch, context.state.user, item)}
                                 className={`p-2 cursor-pointer hover:bg-gray-200 hover:rounded-xl p-2  ${item.id === context.state?.selectedCollection?.id ? 'text-black' : 'text-neutral-500'}`}
                             >
                                 <p className="overflow-hidden whitespace-nowrap overflow-ellipsis">{item.name}</p>
