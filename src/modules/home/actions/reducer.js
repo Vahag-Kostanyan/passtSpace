@@ -23,8 +23,10 @@ export const reducer = (state, action) => {
             return {...state, selectedCollection: action.payload.data}
         case reducerTypes.SET_PASTES:
             return {...state, isPastesLoading: false, pastes: action.payload.data}
-        case reducerTypes.ADD_PASTES:
+        case reducerTypes.ADD_PASTE:
             return {...state, pastes: [action.payload.data, ...state.pastes]}
+        case reducerTypes.DELETE_PASTE:
+            return {...state, pastes: state.pastes.filter(item => item.id !== action.payload.pasteId)}
         case reducerTypes.SET_LOADING:
             return {...state, isLoading: action.payload.status}
         case reducerTypes.SET_PASTES_LOADING:

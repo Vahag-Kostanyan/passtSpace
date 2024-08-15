@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { reducerTypes } from "../utils";
-import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, editCollectionQuery, getCollectionsQuery, getPastesQuery } from "../querys/collection";
+import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, deletePasteQuery, editCollectionQuery, getCollectionsQuery, getPastesQuery } from "../querys/collection";
 import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
     useEffect(() => {
         dispatch({ type: reducerTypes.SET_LOADING, payload: { status: true } });
         (async () => {
-            if (state.user){
+            if (state.user) {
                 await getCollectionsQuery(state.user.uid).then(res => dispatch({ type: reducerTypes.SET_COLLECTIONS, payload: { data: res } }));
                 dispatch({ type: reducerTypes.SET_LOADING, payload: { status: false } });
             }
@@ -25,7 +25,7 @@ export const createCollectionAction = async (e, dispatch, collectionName, user, 
         const collection = await createCollectionQuery(collectionName, user);
 
         if (collection) {
-            dispatch({type: reducerTypes.ADD_COLLECTION, payload: {data: collection}});
+            dispatch({ type: reducerTypes.ADD_COLLECTION, payload: { data: collection } });
             successAlert('Created Successfully');
             closeModal();
         }
@@ -46,7 +46,7 @@ export const editCollectionAction = async (e, dispatch, collectionName, user, do
         const collection = await editCollectionQuery(collectionName, user, docId);
 
         if (collection) {
-            dispatch({type: reducerTypes.EDIT_COLLECTION, payload: {data: collection}});
+            dispatch({ type: reducerTypes.EDIT_COLLECTION, payload: { data: collection } });
             successAlert('Updated Successfully');
             closeModal();
         }
@@ -58,7 +58,7 @@ export const deleteCollectionAction = async (dispatch, user, docId, closeModal) 
         const status = await deleteCollectionQuery(docId, user.uid);
 
         if (status) {
-            dispatch({type: reducerTypes.DELETE_COLLECTION, payload: {docId}});
+            dispatch({ type: reducerTypes.DELETE_COLLECTION, payload: { docId } });
             successAlert('Deleted Successfully');
             closeModal();
         }
@@ -66,25 +66,39 @@ export const deleteCollectionAction = async (dispatch, user, docId, closeModal) 
 }
 
 export const selectCollectionAction = async (dispatch, user, item) => {
-    try{
-        const pastes =  await getPastesQuery(user, item.id);
-                        
-        dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: item }});
-        dispatch({ type: reducerTypes.SET_PASTES_LOADING, payload: { status: true }});
-        dispatch({ type: reducerTypes.SET_PASTES, payload: { data: pastes }});
-    }catch(error) {
-        
+    try {
+        const pastes = await getPastesQuery(user, item.id);
+
+        dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: item } });
+        dispatch({ type: reducerTypes.SET_PASTES_LOADING, payload: { status: true } });
+        dispatch({ type: reducerTypes.SET_PASTES, payload: { data: pastes } });
+    } catch (error) {
+
     }
 }
 
 
 export const createPasteAction = async (e, dispatch, user, docId, pasteText) => {
-    try{
+    try {
         e.preventDefault();
 
         const paste = await createPasteQuery(user, docId, pasteText);
-        
-        dispatch({ type: reducerTypes.ADD_PASTES, payload: { data: paste }});
-        
-    }catch(error) {}
+
+        dispatch({ type: reducerTypes.ADD_PASTE, payload: { data: paste } });
+
+    } catch (error) { }
+}
+
+
+export const deletePasteAction = async (dispatch, user, collectionId, pasteId, closeModal) => {
+    try {
+        const status = await deletePasteQuery(user, collectionId, pasteId);
+
+        if (status) {
+            dispatch({ type: reducerTypes.DELETE_PASTE, payload: { pasteId } });
+            successAlert('Deleted Successfully');
+            closeModal();
+        }
+
+    } catch (error) { }
 }

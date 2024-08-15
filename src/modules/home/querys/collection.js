@@ -180,3 +180,23 @@ export const getPastesQuery = async (user, docId) => {
         serverErrorAlert();
     }
 }
+
+export const deletePasteQuery = async (user, docId, pasteId) => {
+    try {
+        const docRef = doc(db, 'collections', docId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists() && docSnap.data().createdBy === user.uid) {
+            const pastesCollectionRef = doc(docRef, 'pastes', pasteId);
+
+            await deleteDoc(pastesCollectionRef);
+            
+            return true;
+        }
+
+        errorAlert('Please reload the page!');
+        return false;
+    } catch (error) {
+        serverErrorAlert();
+    }
+}

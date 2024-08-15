@@ -12,7 +12,7 @@ const List = ({RightClickComponent}) => {
                 <>
                     {context?.state?.pastes?.map(item => {
                         return <li
-                            onContextMenu={RightClickComponent}
+                            onContextMenu={(e) => RightClickComponent(e, item.id)}
                             key={item.id}
                             className={`p-2 px-3 bg-gray-200 rounded-xl flex flex-col gap-2 ${!context.state.isSmallScreen && 'max-w-2/3'}`}
                         >
