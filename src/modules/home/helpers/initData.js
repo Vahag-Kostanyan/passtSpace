@@ -6,6 +6,8 @@ export const initFormData = () => {
         pastes: [],
         isLoading: false,
         isPastesLoading: false,
-        user: null
+        user: null,
+        currentPaste: {},
+        pasteAction: null
     };
 }

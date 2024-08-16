@@ -11,4 +11,6 @@ export const reducerTypes = {
     SET_IS_SMALL_SCREEN: 'set_is_small_screen',
     SET_LOADING: 'set_loading',
     SET_PASTES_LOADING: 'set_pastes_loading',
+    SET_CURRENT_PASTE: 'set_current_paste',
+    SET_CURRENT_PASTE_ACTION: 'set_current_paste_action',
 }
