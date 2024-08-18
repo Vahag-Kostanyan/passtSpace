@@ -1,7 +1,10 @@
-import {  useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useOutsideClick } from "../../hooks/useOutsideClick";
-import { getAndCheckUser, userSignOut } from "../../actions/currentUser";
+import { useOutsideClick } from "../hooks/useOutsideClick";
+import { getAndCheckUser, userSignOut } from "../actions/currentUser";
+import ProfileSVG from "../svg/profileSVG";
+import HomeSVG from "../svg/homeSVG";
+import LogOutSVG from "../svg/logOutSVG";
 
 const Navbar = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -10,7 +13,7 @@ const Navbar = () => {
     const ref = useRef();
     const avatarRef = useRef(null);
 
-    useOutsideClick(ref, avatarRef, () => setIsDropdownOpen(false));
+    useOutsideClick(ref, avatarRef, location, () => setIsDropdownOpen(false));
     window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             setIsDropdownOpen(false);
@@ -41,24 +44,33 @@ const Navbar = () => {
                 {isDropdownOpen && (
                     <div ref={ref} className="absolute right-[15px] top-[50px] mt-2 w-48 bg-white rounded-md shadow-2xl py-2 " id="user-dropdown">
                         <div className="px-4 py-3 border-b-2 mb-2 ">
-                            <span className="block text-sm text-gray-500 truncate">{authUser.email}</span>
+                            <span className="block text-sm text-gray-500 truncate">{authUser?.email || authUser?.displayName}</span>
                         </div>
                         <ul className="flex flex-col gap-2 rounded-lg">
                             <li>
                                 <Link
                                     to={'/profile'}
-                                    className={location.pathname === '/profile' ? "block py-2 px-3 rounded bg-blue-200" : "block py-2 px-3 rounded hover:bg-gray-200 "}
+                                    className={location.pathname === '/profile' ? "block py-2 px-3 rounded bg-blue-200 flex gap-2" : "block py-2 px-3 rounded hover:bg-gray-200 flex gap-2 "}
                                     aria-current="page"
-                                >Profile</Link>
+                                >
+                                    <ProfileSVG />
+                                    Profile
+                                </Link>
                             </li>
                             <li >
                                 <Link
                                     to={'/'}
-                                    className={location.pathname === '/' ? "block py-2 px-3 text-gray-900 font-xs rounded bg-blue-200" : "block py-2 px-3 text-gray-900 font-xs rounded hover:bg-gray-200"}
-                                >Home</Link>
+                                    className={location.pathname === '/' ? "block py-2 px-3 text-gray-900 font-xs rounded bg-blue-200 flex gap-2" : "block py-2 px-3 text-gray-900 font-xs rounded hover:bg-gray-200 flex gap-2"}
+                                >
+                                    <HomeSVG />
+                                    Home
+                                </Link>
                             </li>
                             <li>
-                                <a onClick={userSignOut} className="block py-2 px-3 cursor-pointer text-gray-900 font-xs rounded hover:bg-gray-200"> Log Out</a>
+                                <a onClick={userSignOut} className="block py-2 px-3 cursor-pointer text-gray-900 font-xs rounded hover:bg-gray-200 flex gap-2">
+                                    <LogOutSVG />
+                                    Log Out
+                                </a>
                             </li>
                         </ul>
                     </div>

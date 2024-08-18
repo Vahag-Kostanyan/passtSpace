@@ -1,0 +1,17 @@
+export const reducerTypes = {
+    SET_USER: 'set_user',
+    SET_COLLECTIONS: 'set_collections',
+    ADD_COLLECTION: 'add_collection',
+    EDIT_COLLECTION: 'edit_collection',
+    DELETE_COLLECTION: 'delete_collection',
+    SET_SELECTED_COLLECTION: 'set_selected_collection',
+    SET_PASTES: 'set_pastes',
+    ADD_PASTE: 'add_paste',
+    UPDATE_PASTE: 'update_paste',
+    DELETE_PASTE: 'delete_paste',
+    SET_IS_SMALL_SCREEN: 'set_is_small_screen',
+    SET_LOADING: 'set_loading',
+    SET_PASTES_LOADING: 'set_pastes_loading',
+    SET_CURRENT_PASTE: 'set_current_paste',
+    SET_CURRENT_PASTE_ACTION: 'set_current_paste_action',
+}

@@ -8,3 +8,7 @@ export const successAlert = (message) => {
 export const errorAlert = (message) => {
     toast.error(message);   
 }
+
+export const serverErrorAlert = () => {
+    toast.error('Something want wrong please connect with sport!');   
+}
