@@ -7,7 +7,5 @@ export const initFormData = () => {
         isLoading: false,
         isPastesLoading: false,
         user: null,
-        currentPaste: {},
-        pasteAction: null
     };
 }

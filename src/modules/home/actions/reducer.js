@@ -22,21 +22,26 @@ export const reducer = (state, action) => {
         case reducerTypes.SET_COLLECTIONS:
             return { ...state, collections: action.payload.data }
         case reducerTypes.SET_SELECTED_COLLECTION:
-            return { ...state, selectedCollection: action.payload.data }
+            return { ...state, pastes: [], selectedCollection: action.payload.data }
         case reducerTypes.SET_PASTES:
             return { ...state, isPastesLoading: false, pastes: action.payload.data }
         case reducerTypes.ADD_PASTE:
             return { ...state, pastes: [action.payload.data, ...state.pastes] }
+        case reducerTypes.UPDATE_PASTE:
+            return {
+                ...state, pastes: state.pastes.map(item => {
+                    if (item.id === action.payload.data.id) {
+                        item.paste = action.payload.data.paste;
+                    }
+                    return item;
+                })
+            }
         case reducerTypes.DELETE_PASTE:
             return { ...state, pastes: state.pastes.filter(item => item.id !== action.payload.pasteId) }
         case reducerTypes.SET_LOADING:
             return { ...state, isLoading: action.payload.status }
         case reducerTypes.SET_PASTES_LOADING:
             return { ...state, isPastesLoading: action.payload.status }
-        case reducerTypes.SET_CURRENT_PASTE:
-             return { ...state, currentPaste: action.payload.data }
-        case reducerTypes.SET_CURRENT_PASTE_ACTION:
-             return { ...state, pasteAction: action.payload.type }
         default:
             return state;
     }

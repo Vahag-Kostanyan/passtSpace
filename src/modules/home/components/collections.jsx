@@ -19,7 +19,7 @@ const Collections = () => {
             <ul className={`flex flex-col gap-2 pt-4 ${!context.state.isLoading && '-mb-base  overflow-y-scroll '}`}  >
                 {!context.state.isLoading ? (
                     <>
-                        {context.state.collections.map(item => {
+                        {context?.state?.collections?.map(item => {
                             return <li
                                 key={item.id}
                                 onClick={() => selectCollectionAction(context.dispatch, context.state.user, item)}

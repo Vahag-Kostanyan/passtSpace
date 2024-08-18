@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { reducerTypes } from "../utils";
-import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, deletePasteQuery, editCollectionQuery, getCollectionsQuery, getPastesQuery } from "../querys/collection";
+import { createCollectionQuery, createPasteQuery, deleteCollectionQuery, deletePasteQuery, editCollectionQuery, getCollectionsQuery, getPastesQuery, updatePasteQuery } from "../querys/collection";
 import { errorAlert, successAlert } from "../../../helpers/alert";
 
 export const getCollectionsAction = (state, dispatch) => {
@@ -26,6 +26,7 @@ export const createCollectionAction = async (e, dispatch, collectionName, user, 
 
         if (collection) {
             dispatch({ type: reducerTypes.ADD_COLLECTION, payload: { data: collection } });
+            dispatch({ type: reducerTypes.SET_SELECTED_COLLECTION, payload: { data: collection } });
             successAlert('Created Successfully');
             closeModal();
         }
@@ -87,6 +88,17 @@ export const createPasteAction = async (e, dispatch, user, docId, pasteText) => 
         dispatch({ type: reducerTypes.ADD_PASTE, payload: { data: paste } });
 
     } catch (error) { }
+}
+
+export const updatePasteAction = async (e, dispatch, user, collectionId, pasteId, pasteText) => {
+    try {
+        e.preventDefault();
+
+        const paste = await updatePasteQuery(user, collectionId, pasteId, pasteText);
+
+        dispatch({ type: reducerTypes.UPDATE_PASTE, payload: { data: paste } });
+        successAlert('Updated Successfully');
+    } catch (error) {}
 }
 
 

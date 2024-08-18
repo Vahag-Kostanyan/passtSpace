@@ -3,17 +3,20 @@ import { db } from "../../../firebase.config";
 import { errorAlert, serverErrorAlert } from "../../../helpers/alert";
 
 export const getCollectionsQuery = async (id) => {
-    try {
+    try {   
         const colRef = collection(db, 'collections');
-
-        const q = query(colRef, where('createdBy', '==', id));
+        const q = query(colRef, where('createdBy', '==', id), orderBy('createdAt', 'asc'));
         const querySnapshots = await getDocs(q);
 
-        return querySnapshots.docs.map(doc => ({
-            id: doc.id,
-            ...doc.data()
-        }));
+        if (!querySnapshots.empty) {
+            return querySnapshots.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+        }
+        return [];
     } catch (error) {
+        console.log(error);
         serverErrorAlert();
     }
 }
@@ -155,6 +158,39 @@ export const createPasteQuery = async (user, docId, paste) => {
     }
 }
 
+export const updatePasteQuery = async (user, collectionId, pasteId, paste) => {
+    try {
+        const collectionRef = doc(db, 'collections', collectionId);
+        const collectionSnap = await getDoc(collectionRef);
+
+        if (collectionSnap.exists() && collectionSnap.data().createdBy === user.uid) {
+
+            const pasteRef = doc(collectionRef, 'pastes', pasteId);
+
+            await updateDoc(pasteRef, { paste: paste });
+
+            const pasteSnap = await getDoc(pasteRef);
+
+            if (pasteSnap.exists()) {
+                const docData = {
+                    id: pasteSnap.id,
+                    ...pasteSnap.data(),
+                };
+
+                return docData;
+            }
+  
+            return {};
+        }
+
+        errorAlert('Please reload the page!');
+        return {};
+    } catch (error) {
+        serverErrorAlert();
+    }
+}
+
+
 
 export const getPastesQuery = async (user, docId) => {
     try {
@@ -168,7 +204,7 @@ export const getPastesQuery = async (user, docId) => {
             const q = query(pastesCollectionRef, orderBy("createdAt", "desc")); // Change "desc" to "asc" if you want ascending order
 
             const subDocSnap = await getDocs(q);
-            
+
             return subDocSnap.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
@@ -190,7 +226,7 @@ export const deletePasteQuery = async (user, docId, pasteId) => {
             const pastesCollectionRef = doc(docRef, 'pastes', pasteId);
 
             await deleteDoc(pastesCollectionRef);
-            
+
             return true;
         }
 
