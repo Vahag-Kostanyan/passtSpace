@@ -2,9 +2,11 @@ import { useContext } from "react";
 import { StateContext } from "../../../index.jsx";
 import Loading from "../../../../../ui/loading.jsx";
 import { convertDateTime } from "../../../../../helpers/date.js";
+import useLongPress from "../../../../../hooks/useLongPress.js";
 
 const List = ({RightClickComponent}) => {
     const context = useContext(StateContext);
+    const longPressHandlers = useLongPress(RightClickComponent, 1000); // 1 second long press
 
     return (
         <ul className="flex flex-col-reverse items-end gap-4">
@@ -12,6 +14,7 @@ const List = ({RightClickComponent}) => {
                 <>
                     {context?.state?.pastes?.map(item => {
                         return <li
+                            {...longPressHandlers}
                             onContextMenu={(e) => RightClickComponent(e, item)}
                             key={item.id}
                             className={`p-2 px-3 bg-gray-200 rounded-xl flex flex-col gap-2 ${!context.state.isSmallScreen && 'max-w-2/3'}`}
