@@ -83,6 +83,14 @@ export const createPasteAction = async (e, dispatch, user, docId, pasteText) => 
     try {
         e.preventDefault();
 
+        if(pasteText.length <= 0){
+            errorAlert('Message cannot be empty');
+            return;
+        }else if(pasteText.length > 1000000){
+            errorAlert('The message length cannot exceed 1,000,000 characters.');
+            return;
+        }
+
         const paste = await createPasteQuery(user, docId, pasteText);
 
         dispatch({ type: reducerTypes.ADD_PASTE, payload: { data: paste } });
