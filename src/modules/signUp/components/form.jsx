@@ -4,8 +4,9 @@ import ContinueWithGoogle from '../../../ui/continueWithGoogle';
 import AuthButton from "../../../ui/authButton";
 import LoginLink from "../ui/loginLink";
 import { useReducer } from "react";
-import { reducer, signUpAction, signUpWithGoogleAction } from "../actions/signUp";
+import { reducer, signUpAction, signUpWithGitHubAction, signUpWithGoogleAction } from "../actions/signUp";
 import { SignUpReducerTypes } from "../utils";
+import ContinueWithGitHub from "../../../ui/continueWithGitHub";
 
 const Form = () => {
     const [state, dispatch] = useReducer(reducer, { email: '', password: '' });
@@ -20,8 +21,9 @@ const Form = () => {
                 </h1>
                 <div className="w-full flex-1 mt-8">
 
-                    <div className="flex flex-col items-center">
+                    <div className="flex flex-col items-center gap-2">
                         <ContinueWithGoogle action={() => signUpWithGoogleAction()} />
+                        <ContinueWithGitHub action={() => signUpWithGitHubAction()} />
                     </div>
 
                     <div className="my-12 border-b text-center">

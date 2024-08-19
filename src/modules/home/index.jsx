@@ -1,20 +1,37 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "../../fierbase.config";
+import { createContext, useReducer } from "react";
+import Collections from "./components/collections";
+import Content from "./components/content";
+import { useWindowResize } from "../../hooks/useWindowResize";
+import { getAndCheckUser } from "../../actions/currentUser";
+import { reducer } from "./actions/reducer";
+import { initFormData } from "./helpers/initData";
+import { reducerTypes } from "./utils";
+import { getCollectionsAction } from "./actions/action";
+
+export const StateContext = createContext();
 
 const HomeModule = () => {
-    const [authUser, setAuthUser] = useState(null);
+    const [state, dispatch] = useReducer(reducer, initFormData());
 
-    useEffect(() => {
-        (() => {
-            onAuthStateChanged(auth, (user) => {
-                setAuthUser(user);
-            })
-        })();
-    }, []);
+    useWindowResize((data) => dispatch({ type: reducerTypes.SET_IS_SMALL_SCREEN, payload: { data: data } }));
+    getAndCheckUser((user) => dispatch({ type: reducerTypes.SET_USER, payload: { data: user } }));
+    getCollectionsAction(state, dispatch);
+
+
+    const CollectionsComponent = () => <StateContext.Provider value={{state, dispatch}}><Collections/></StateContext.Provider>
+    const ContentComponent = () => <StateContext.Provider value={{state, dispatch}}><Content/></StateContext.Provider>
 
     return (
-        <div>
+        <div className="flex  gap-3" style={{ height: 'calc(100vh - 115px)' }}>
+            {state.isSmallScreen ? (<>{state.selectedCollection.id ? (<ContentComponent />) : (<CollectionsComponent />)}</>) :
+                (
+                    <>
+
+                        <CollectionsComponent />
+                        <ContentComponent />
+                    </>
+                )}
+
         </div>
     );
 }
