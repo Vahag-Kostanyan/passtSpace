@@ -111,18 +111,23 @@ body {
 
     ::-webkit-scrollbar {
         width: 5px;
-      }
-      
-      ::-webkit-scrollbar-track {
+    }
+
+    ::-webkit-scrollbar-track {
         background: #f1f1f1;
-      }
-      
-      ::-webkit-scrollbar-thumb {
+    }
+
+    ::-webkit-scrollbar-thumb {
         background: #888;
         border-radius: 10px;
-      }
-      
-      ::-webkit-scrollbar-thumb:hover {
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
         background: #555;
-      }
+    }
+
+    .word-break {
+        text-wrap: wrap;
+        word-wrap: break-word;
+    }
 }
