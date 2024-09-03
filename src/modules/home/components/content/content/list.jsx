@@ -17,7 +17,7 @@ const List = ({RightClickComponent}) => {
                             {...longPressHandlers}
                             onContextMenu={(e) => RightClickComponent(e, item)}
                             key={item.id}
-                            className={`p-2 px-3 bg-gray-200 rounded-xl flex flex-col gap-2 max-w-full ${!context.state.isSmallScreen && 'max-w-2/3'}`}
+                            className={`whitespace-pre-wrap p-2 px-3 bg-gray-200 rounded-xl flex flex-col gap-2 max-w-full ${!context.state.isSmallScreen && 'max-w-2/3'}`}
                         >
                             <div className="word-break">{item.paste}</div>
                             <div className="flex justify-end text-xs" >{convertDateTime(item.createdAt)}</div>

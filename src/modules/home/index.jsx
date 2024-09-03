@@ -22,11 +22,10 @@ const HomeModule = () => {
     const ContentComponent = () => <StateContext.Provider value={{state, dispatch}}><Content/></StateContext.Provider>
 
     return (
-        <div className="flex  gap-3" style={{ height: 'calc(100vh - 115px)' }}>
+        <div className="flex gap-3 max-w-full" style={{ height: 'calc(100vh - 115px)' }}>
             {state.isSmallScreen ? (<>{state.selectedCollection.id ? (<ContentComponent />) : (<CollectionsComponent />)}</>) :
                 (
                     <>
-
                         <CollectionsComponent />
                         <ContentComponent />
                     </>
