@@ -4,7 +4,6 @@ import AddCollectionForm from "../components/form/addCollectionForm";
 import Loading from "../../../ui/loading";
 import { useContext } from "react";
 import { StateContext } from "../index.jsx";
-import { reducerTypes } from "../utils/index.js";
 import { selectCollectionAction } from "../actions/action.js";
 
 const Collections = () => {
