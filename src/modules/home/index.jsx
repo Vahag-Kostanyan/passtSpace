@@ -7,26 +7,26 @@ import { reducer } from "./actions/reducer";
 import { initFormData } from "./helpers/initData";
 import { reducerTypes } from "./utils";
 import { getCollectionsAction } from "./actions/action";
+import { isSafari } from "../../helpers/userAgent";
 
 export const StateContext = createContext();
 
 const HomeModule = () => {
     const [state, dispatch] = useReducer(reducer, initFormData());
+    let style = (isSafari()) ? { height: 'calc(100vh - 195px)' } : { height: 'calc(100vh - 115px)' };
 
     useWindowResize((data) => dispatch({ type: reducerTypes.SET_IS_SMALL_SCREEN, payload: { data: data } }));
     getAndCheckUser((user) => dispatch({ type: reducerTypes.SET_USER, payload: { data: user } }));
     getCollectionsAction(state, dispatch);
 
-
     const CollectionsComponent = () => <StateContext.Provider value={{state, dispatch}}><Collections/></StateContext.Provider>
     const ContentComponent = () => <StateContext.Provider value={{state, dispatch}}><Content/></StateContext.Provider>
 
     return (
-        <div className="flex  gap-3" style={{ height: 'calc(100vh - 115px)' }}>
+        <div className="flex gap-3 max-w-full" style={style}>
             {state.isSmallScreen ? (<>{state.selectedCollection.id ? (<ContentComponent />) : (<CollectionsComponent />)}</>) :
                 (
                     <>
-
                         <CollectionsComponent />
                         <ContentComponent />
                     </>

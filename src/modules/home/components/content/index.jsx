@@ -8,9 +8,10 @@ const ContentIndex = () => {
     const context = useContext(StateContext);
     const [paste, setPaste] = useState(null);
     const [isEditPaste, setIsEditPaste] = useState(null);
+    let style = context.state.isSmallScreen ? { maxWidth: '100%' } : { maxWidth: 'calc(100% - 224px)' };
 
     return (
-        <div className="flex-8 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg p-3 flex flex-col w-full">
+        <div className="flex-8 border-gray-200 bg-gray-50 bg-white shadow sm:rounded-lg p-3 flex flex-col w-full" style={style} >
             {context.state.selectedCollection.id && (
                 <div className="flex flex-col justify-between gap-2 h-full">
                     <Head/>
