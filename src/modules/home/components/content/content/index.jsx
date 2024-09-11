@@ -31,7 +31,7 @@ const ContentIndex = ({ setPaste, setIsEditPaste}) => {
     }
 
     return (
-        <div ref={containerRef} className={`flex flex-col-reverse p-4 h-full px-8 ${!context.state.isLoading && '-mb-base  overflow-y-scroll '}`}>
+        <div ref={containerRef} className={`flex flex-col-reverse p-4 h-full px-8 ${!context.state.isLoading && '-mb-base  overflow-y-scroll items-end'}`}>
             <List RightClickComponent={RightClickComponent} />
 
             {isModalOpen && (
