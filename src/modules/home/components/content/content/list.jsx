@@ -9,7 +9,7 @@ const List = ({ RightClickComponent }) => {
     const context = useContext(StateContext);
     const longPressHandlers = useLongPress(RightClickComponent, 1000);
     return (
-        <ul className={`flex flex-col-reverse items-end gap-4 ${!context.state.isSmallScreen && 'max-w-lg'}`}>
+        <ul className={`flex flex-col-reverse items-end gap-4 max-w-full ${!context.state.isSmallScreen && 'max-w-lg'}`}>
             {!context.state.isPastesLoading ? (
                 <>
                     {context?.state?.pastes?.map(item => {
